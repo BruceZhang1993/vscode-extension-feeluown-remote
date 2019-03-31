@@ -10,13 +10,13 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.feeluownTest"
+		"onCommand:extension.feeluownStart"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [{
-			"command": "extension.feeluownTest",
-			"title": "FeelUOwn Test"
+			"command": "extension.feeluownStart",
+			"title": "FeelUOwn Remote: Start"
 		}]
 	},
 	"scripts": {
