@@ -1,5 +1,8 @@
 # FeelUOwn Remote VSCode Extension (WIP)
 
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](http://www.gnu.org/licenses/lgpl-3.0)
+[![Build Status](https://travis-ci.org/BruceZhang1993/vscode-extension-feeluown-remote.svg?branch=master)](https://travis-ci.org/BruceZhang1993/vscode-extension-feeluown-remote)
+
 FeelUOwn player remote control extension for Visual Studio Code.
 
 ## Features
