@@ -10,14 +10,21 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.feeluownStart"
+		"onCommand:feeluown.start",
+		"onCommand:feeluown.toggle"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [{
-			"command": "extension.feeluownStart",
-			"title": "FeelUOwn Remote: Start"
-		}]
+		"commands": [
+			{
+				"command": "feeluown.start",
+				"title": "FeelUOwn Remote: Start"
+			},
+			{
+				"command": "feeluown.toggle",
+				"title": "FeelUOwn Remote: Toggle"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
