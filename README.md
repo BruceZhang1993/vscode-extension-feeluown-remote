@@ -29,8 +29,8 @@ You need a running FeelUOwn instance or fuo server.
 
 Under construction...
 
-<!-- * `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something -->
+- `feeluown.setShowLyrics`: (boolean) Show lyrics on statusbar.
+- `feeluown.setStatusInterval`: (integer) Interval ms to watch current playing state.
 
 ## Known Issues
 

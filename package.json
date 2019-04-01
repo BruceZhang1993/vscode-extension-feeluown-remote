@@ -26,7 +26,22 @@
 				"command": "feeluown.toggle",
 				"title": "FeelUOwn Remote: Toggle"
 			}
-		]
+		],
+		"configuration":{
+			"title": "FeelUOwn Remote Configuration",
+			"properties": {
+				"feeluown.setShowLyrics": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show lyrics on statusbar."
+				},
+				"feeluown.setStatusInterval": {
+					"type": "integer",
+					"default": 800,
+					"description": "Interval ms to watch current playing state."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",

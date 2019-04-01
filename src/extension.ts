@@ -1,13 +1,15 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { status, init, toggle } from './service';
+import { status, init, toggle, updateConfig } from './service';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
 	init();
+
+	let configWatcher = vscode.workspace.onDidChangeConfiguration(updateConfig);
 
 	let statusD = vscode.commands.registerCommand('feeluown.start', () => {
 		status();
@@ -19,6 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(statusD);
 	context.subscriptions.push(toggleD);
+	context.subscriptions.push(configWatcher);
 }
 
 // this method is called when your extension is deactivated

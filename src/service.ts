@@ -6,9 +6,21 @@ let statusBarName: vscode.StatusBarItem;
 let statusBarLrc: vscode.StatusBarItem;
 let statusBarToggle: vscode.StatusBarItem;
 
+let setShowLrc: any;
+let setStatusInterval: any;
+
+export function updateConfig(e) {
+	setStatusInterval = vscode.workspace.getConfiguration('feeluown').get('setStatusInterval');
+	setShowLrc = vscode.workspace.getConfiguration('feeluown').get('setShowLyrics');
+}
+
 export function init() {
-	// Current lyric
-	statusBarLrc = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 121);
+	setStatusInterval = vscode.workspace.getConfiguration('feeluown').get('setStatusInterval');
+	setShowLrc = vscode.workspace.getConfiguration('feeluown').get('setShowLyrics');
+	if (setShowLrc) {
+		// Current lyric
+		statusBarLrc = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 121);
+	}
 	// Track name
 	statusBarName = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 120);
 	// Toggle play
@@ -53,7 +65,7 @@ export function status() {
 					let duArr = line.split(/\s+/);
 					duration = parseInt(duArr[1].trimLeft());
 				}
-				if (line.indexOf('lyric-s:') !== -1) {
+				if (setShowLrc && line.indexOf('lyric-s:') !== -1) {
 					lyric = line.replace('lyric-s:', '').trim();
 				}
 				if (line.indexOf('state:') !== -1) {
@@ -61,11 +73,13 @@ export function status() {
 				}
 			});
 			if (song) {
-				console.log(lyric);
 				statusBarName.text = song + '(' + formatSeconds(position) + '/' + formatSeconds(duration) + ')';
 				statusBarName.show();
-				statusBarLrc.text = lyric;
-				statusBarLrc.show();
+				
+				if (setShowLrc) {
+					statusBarLrc.text = lyric;
+					statusBarLrc.show();
+				}
 
 				if (playState === 'playing') {
 					statusBarToggle.text = ' ⏸️ ';
@@ -82,6 +96,10 @@ export function status() {
 			console.log(stderr);
 			vscode.window.showErrorMessage('fuo is not available.');
 		}
-		setTimeout(status, 800);
+		if (setStatusInterval) {
+			setTimeout(status, setStatusInterval);
+		} else {
+			setTimeout(status, 800);
+		}
 	});
 }
