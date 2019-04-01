@@ -10,7 +10,11 @@ addons:
   apt:
     packages:
     - libsecret-1-dev
+cache:
+  directories:
+    - .vscode-test
 script:
+- npm test
 - npm run vscode:prepublish
 before_deploy:
 - npm install -g vsce
