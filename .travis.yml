@@ -20,7 +20,7 @@ deploy:
   provider: releases
   api_key:
     secure: hvBD+HGgOJShyWOh0cS+F7AHrcrO4ovabpYKLQRRVerZXrJ/g3CLhCHZhQ2WEgt/xuQ+qPUR59Gqox78JRlH/ikBYcZYJXJPtKvCJ6m9EymeUCmnYTfRZlaeBwuBpq1zi6O6lMyfg+E8a3Bi968fK2zPsLNZRE7WM4qIg5+MX8plrlLQt3wN9OFBlXynFcd+fOilsV6HeuNoBDPTBi7sPEUE8Fqj5uTnDVZl1IFvYw3R1y3jdEOAHeGDIfTZAHWlgHoCbLpIuhlbVBk7EaVO62K1x3TnTZzyTJxtPxbkwT4/G6OwszLHQ9Hd/KKbX4IrIXLA/+D8gslpd2u2IBWlpB9LH473fDasX8/zbGwlgcCL0cz2JLBTAu0qFvk6inB63cE8m1+fUxDRk6u7wkRRiOSbS8A279OeAjGItvhtbi2MQyHDvo784z/M7Ke0Lm1ym+cxkY7jywsIdu4LHtRXaKFM79x47bD6OLFCMUYQsCXXE5l4B0feJxe2ZeW20HookvfWcxBIHN8/uy+u2nZrD4ilU3I0o9UZKe/hUFPNxigTrItTwnCvoonYqzRLjoDS6RfDLWKJFQ/qOo2CiJ0rhXdgq0mV+AfcCk2EhymaJvqXOH/agFebMVB+JZ9l8WDZxUdef5JXKG1tHNJEKdpQc/8DLNJqKqHARRMQQ3D0j7E=
-  file: "${PACKAGE_NAME}""
+  file: "${PACKAGE_NAME}"
   skip_cleanup: true
   on:
     repo: BruceZhang1993/vscode-extension-feeluown-remote
