@@ -5,6 +5,8 @@ import { formatSeconds } from './util';
 let statusBarName: vscode.StatusBarItem;
 let statusBarLrc: vscode.StatusBarItem;
 let statusBarToggle: vscode.StatusBarItem;
+let statusBarPrev: vscode.StatusBarItem;
+let statusBarNext: vscode.StatusBarItem;
 
 let setShowLrc: any;
 let setStatusInterval: any;
@@ -25,11 +27,45 @@ export function init() {
 	statusBarName = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 120);
 	// Toggle play
 	statusBarToggle = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 108);
+	// Prev track
+	statusBarPrev = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 109);
+	// Next track
+	statusBarNext = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 107);
 
 	statusBarToggle.text = ' ⏸️ ';
 	statusBarToggle.command = 'feeluown.toggle';
 	statusBarToggle.tooltip = '暂停播放';
 	statusBarToggle.show();
+
+	statusBarPrev.text = ' ⏮️ ';
+	statusBarPrev.command = 'feeluown.prev';
+	statusBarPrev.tooltip = '上一首';
+	statusBarPrev.show();
+
+	statusBarNext.text = ' ⏭️ ';
+	statusBarNext.command = 'feeluown.next';
+	statusBarNext.tooltip = '下一首';
+	statusBarNext.show();
+}
+
+export function prev() {
+	cp.exec('fuo previous', (err: any, stdout: string, stderr: any) => {
+		if (!err) {
+			
+		} else {
+			vscode.window.showErrorMessage('fuo is not available.');
+		}
+	});
+}
+
+export function next() {
+	cp.exec('fuo next', (err: any, stdout: string, stderr: any) => {
+		if (!err) {
+			
+		} else {
+			vscode.window.showErrorMessage('fuo is not available.');
+		}
+	});
 }
 
 export function toggle() {
@@ -77,8 +113,15 @@ export function status() {
 				statusBarName.show();
 				
 				if (setShowLrc) {
+					if (!statusBarLrc) {
+						statusBarLrc = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 121);
+					}
 					statusBarLrc.text = lyric;
 					statusBarLrc.show();
+				} else {
+					if (statusBarLrc) {
+						statusBarLrc.hide();
+					}
 				}
 
 				if (playState === 'playing') {

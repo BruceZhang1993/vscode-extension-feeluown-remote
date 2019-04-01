@@ -25,6 +25,14 @@
 			{
 				"command": "feeluown.toggle",
 				"title": "FeelUOwn Remote: Toggle"
+			},
+			{
+				"command": "feeluown.prev",
+				"title": "FeelUOwn Remote: Prev track"
+			},
+			{
+				"command": "feeluown.next",
+				"title": "FeelUOwn Remote: Next track"
 			}
 		],
 		"configuration":{
