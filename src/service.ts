@@ -9,7 +9,7 @@ let statusBarToggle: vscode.StatusBarItem;
 let setShowLrc: any;
 let setStatusInterval: any;
 
-export function updateConfig(e) {
+export function updateConfig(e: vscode.ConfigurationChangeEvent) {
 	setStatusInterval = vscode.workspace.getConfiguration('feeluown').get('setStatusInterval');
 	setShowLrc = vscode.workspace.getConfiguration('feeluown').get('setShowLyrics');
 }
