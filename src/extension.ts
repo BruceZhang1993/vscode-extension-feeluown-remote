@@ -11,26 +11,22 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let configWatcher = vscode.workspace.onDidChangeConfiguration(updateConfig);
 
-	let statusD = vscode.commands.registerCommand('feeluown.start', () => {
-		status();
-	});
+	let commandRegister = {
+		status: vscode.commands.registerCommand('feeluown.start', () => {
+			status();
+		}),
+		toggle: vscode.commands.registerCommand('feeluown.toggle', () => {
+			toggle();
+		}),
+		prev: vscode.commands.registerCommand('feeluown.prev', () => {
+			prev();
+		}),
+		next: vscode.commands.registerCommand('feeluown.next', () => {
+			next();
+		})
+	};
 
-	let toggleD = vscode.commands.registerCommand('feeluown.toggle', () => {
-		toggle();
-	});
-
-	let prevD = vscode.commands.registerCommand('feeluown.prev', () => {
-		prev();
-	});
-
-	let nextD = vscode.commands.registerCommand('feeluown.next', () => {
-		next();
-	});
-
-	context.subscriptions.push(statusD);
-	context.subscriptions.push(toggleD);
-	context.subscriptions.push(prevD);
-	context.subscriptions.push(nextD);
+	context.subscriptions.concat(Object.values(commandRegister));
 	context.subscriptions.push(configWatcher);
 }
 

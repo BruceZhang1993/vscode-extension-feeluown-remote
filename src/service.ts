@@ -11,14 +11,13 @@ let statusBarNext: vscode.StatusBarItem;
 let setShowLrc: any;
 let setStatusInterval: any;
 
-export function updateConfig(e: vscode.ConfigurationChangeEvent) {
+export function updateConfig(e: vscode.ConfigurationChangeEvent|null) {
 	setStatusInterval = vscode.workspace.getConfiguration('feeluown').get('setStatusInterval');
 	setShowLrc = vscode.workspace.getConfiguration('feeluown').get('setShowLyrics');
 }
 
 export function init() {
-	setStatusInterval = vscode.workspace.getConfiguration('feeluown').get('setStatusInterval');
-	setShowLrc = vscode.workspace.getConfiguration('feeluown').get('setShowLyrics');
+	updateConfig(null);
 	if (setShowLrc) {
 		// Current lyric
 		statusBarLrc = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 121);
