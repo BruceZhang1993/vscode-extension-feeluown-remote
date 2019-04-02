@@ -1,6 +1,6 @@
 # FeelUOwn Remote VSCode Extension (WIP)
 
-![Language](https://img.shields.io/badge/Language-TypeScript-blue.svg)
+[![Language](https://img.shields.io/badge/Language-TypeScript-blue.svg)](https://www.typescriptlang.org/)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](http://www.gnu.org/licenses/lgpl-3.0)
 [![Build Status](https://travis-ci.org/BruceZhang1993/vscode-extension-feeluown-remote.svg?branch=master)](https://travis-ci.org/BruceZhang1993/vscode-extension-feeluown-remote)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3f9afb0ef47b4349a778f01a51eb8ec2)](https://www.codacy.com/app/BruceZhang1993/vscode-extension-feeluown-remote?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=BruceZhang1993/vscode-extension-feeluown-remote&amp;utm_campaign=Badge_Grade)
