@@ -36,7 +36,7 @@
 				"title": "FeelUOwn Remote: Next track"
 			}
 		],
-		"configuration":{
+		"configuration": {
 			"title": "FeelUOwn Remote Configuration",
 			"properties": {
 				"feeluown.setShowLyrics": {
