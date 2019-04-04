@@ -129,6 +129,8 @@ export function status() {
 				}
 
 				if (setShowController) {
+					statusBarPrev.show();
+					statusBarNext.show();
 					if (playState === 'playing') {
 						statusBarToggle.text = ' ⏸️ ';
 						statusBarToggle.tooltip = '暂停播放';
@@ -136,6 +138,10 @@ export function status() {
 						statusBarToggle.text = ' 🎵️ ';
 						statusBarToggle.tooltip = '开始播放';
 					}
+				} else {
+					statusBarPrev.hide();
+					statusBarNext.hide();
+					statusBarToggle.hide();
 				}
 			}
 		} else {
