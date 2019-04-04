@@ -39,6 +39,11 @@
 		"configuration": {
 			"title": "FeelUOwn Remote Configuration",
 			"properties": {
+				"feeluown.setShowController": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show controller on statusbar."
+				},
 				"feeluown.setShowLyrics": {
 					"type": "boolean",
 					"default": true,

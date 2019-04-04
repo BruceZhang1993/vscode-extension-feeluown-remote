@@ -10,10 +10,12 @@ let statusBarNext: vscode.StatusBarItem;
 
 let setShowLrc: any;
 let setStatusInterval: any;
+let setShowController: any;
 
 export function updateConfig(e: vscode.ConfigurationChangeEvent|null) {
 	setStatusInterval = vscode.workspace.getConfiguration('feeluown').get('setStatusInterval');
 	setShowLrc = vscode.workspace.getConfiguration('feeluown').get('setShowLyrics');
+	setShowController = vscode.workspace.getConfiguration('feeluown').get('setShowController');
 }
 
 export function init() {
@@ -24,27 +26,30 @@ export function init() {
 	}
 	// Track name
 	statusBarName = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 120);
-	// Toggle play
-	statusBarToggle = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 108);
-	// Prev track
-	statusBarPrev = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 109);
-	// Next track
-	statusBarNext = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 107);
 
-	statusBarToggle.text = ' ⏸️ ';
-	statusBarToggle.command = 'feeluown.toggle';
-	statusBarToggle.tooltip = '暂停播放';
-	statusBarToggle.show();
+	if (setShowController) {
+		// Toggle play
+		statusBarToggle = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 108);
+		// Prev track
+		statusBarPrev = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 109);
+		// Next track
+		statusBarNext = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 107);
 
-	statusBarPrev.text = ' ⏮️ ';
-	statusBarPrev.command = 'feeluown.prev';
-	statusBarPrev.tooltip = '上一首';
-	statusBarPrev.show();
+		statusBarToggle.text = ' ⏸️ ';
+		statusBarToggle.command = 'feeluown.toggle';
+		statusBarToggle.tooltip = '暂停播放';
+		statusBarToggle.show();
 
-	statusBarNext.text = ' ⏭️ ';
-	statusBarNext.command = 'feeluown.next';
-	statusBarNext.tooltip = '下一首';
-	statusBarNext.show();
+		statusBarPrev.text = ' ⏮️ ';
+		statusBarPrev.command = 'feeluown.prev';
+		statusBarPrev.tooltip = '上一首';
+		statusBarPrev.show();
+
+		statusBarNext.text = ' ⏭️ ';
+		statusBarNext.command = 'feeluown.next';
+		statusBarNext.tooltip = '下一首';
+		statusBarNext.show();
+	}
 }
 
 export function prev() {
@@ -123,12 +128,14 @@ export function status() {
 					}
 				}
 
-				if (playState === 'playing') {
-					statusBarToggle.text = ' ⏸️ ';
-					statusBarToggle.tooltip = '暂停播放';
-				} else {
-					statusBarToggle.text = ' 🎵️ ';
-					statusBarToggle.tooltip = '开始播放';
+				if (setShowController) {
+					if (playState === 'playing') {
+						statusBarToggle.text = ' ⏸️ ';
+						statusBarToggle.tooltip = '暂停播放';
+					} else {
+						statusBarToggle.text = ' 🎵️ ';
+						statusBarToggle.tooltip = '开始播放';
+					}
 				}
 			}
 		} else {
