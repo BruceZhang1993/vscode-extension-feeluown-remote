@@ -1,3 +1,6 @@
+env:
+  global:
+    - PACKAGE_VERSION=$(node -p -e "require('package.json').version")
 notifications:
   email: false
 sudo: false
@@ -25,7 +28,6 @@ script:
 before_deploy:
 - npm install -g vsce
 - vsce package
-- export PACKAGE_VERSION=$(node -p -e "require('package.json').version")
 deploy:
   - provider: releases
     api_key:
