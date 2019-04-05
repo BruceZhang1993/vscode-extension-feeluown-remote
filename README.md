@@ -18,7 +18,11 @@ FeelUOwn player remote control extension for Visual Studio Code.
 - [x]  Show current lyric on statusbar  
 - [x]  Control: play/pause  
 - [x]  Control: previous track  
-- [ ]  Control: next track  
+- [x]  Control: next track  
+- [x]  Configuration: showLyrics  
+- [x]  Configuration: showController  
+- [x]  Configuration: intervalSeconds
+- [ ]  Current playlist  
 - [ ]  More  
 
 ## Requirements
