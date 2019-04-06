@@ -37,6 +37,7 @@ Under construction...
 
 - `feeluown.setShowLyrics`: (boolean) Show lyrics on statusbar.
 - `feeluown.setStatusInterval`: (integer) Interval ms to watch current playing state.
+- `feeluown.setShowController`: (boolean) Show controller on statusbar.
 
 ## Known Issues
 
