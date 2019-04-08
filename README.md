@@ -31,9 +31,14 @@ You need a running FeelUOwn instance or fuo server.
 
 [FeelUOwn](https://github.com/cosven/FeelUOwn)
 
-## Extension Settings
+## Extension Commands
 
-Under construction...
+- `feeluown.start`: Start
+- `feeluown.toggle`: Toggle
+- `feeluown.prev`: Prev track
+- `feeluown.next`: Next track
+
+## Extension Settings
 
 - `feeluown.setShowLyrics`: (boolean) Show lyrics on statusbar.
 - `feeluown.setStatusInterval`: (integer) Interval ms to watch current playing state.
