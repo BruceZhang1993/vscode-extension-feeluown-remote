@@ -5,7 +5,8 @@
 	"displayName": "FeelUOwn Remote",
 	"description": "FeelUOwn Player Remote Control Extension",
 	"repository": "https://github.com/BruceZhang1993/vscode-extension-feeluown-remote",
-	"version": "0.0.5",
+	"version": "0.0.6",
+	"enableProposedApi": true,
 	"engines": {
 		"vscode": "^1.32.0"
 	},
@@ -14,7 +15,8 @@
 	],
 	"activationEvents": [
 		"onCommand:feeluown.start",
-		"onCommand:feeluown.toggle"
+		"onCommand:feeluown.toggle",
+		"onView:currentPlaying"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -55,6 +57,23 @@
 					"description": "Interval ms to watch current playing state."
 				}
 			}
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "feeluownRemote",
+					"title": "FeelUOwn Remote",
+					"icon": "asset/icon/music.svg"
+				}
+			]
+		},
+		"views": {
+			"feeluownRemote": [
+				{
+					"id": "currentPlaying",
+					"name": "Current Playing"
+				}
+			]
 		}
 	},
 	"scripts": {

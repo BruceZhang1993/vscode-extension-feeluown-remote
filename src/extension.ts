@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { status, init, toggle, updateConfig, prev, next } from './service';
+import { CurrentPlayingProvider } from './provider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -25,6 +26,9 @@ export function activate(context: vscode.ExtensionContext) {
 			next();
 		})
 	};
+
+	let cPlayingProvider = new CurrentPlayingProvider(vscode.workspace.rootPath);
+	vscode.window.registerTreeDataProvider("currentPlaying", cPlayingProvider);
 
 	context.subscriptions.concat(Object.values(commandRegister));
 	context.subscriptions.push(configWatcher);
