@@ -1,6 +1,6 @@
 env:
   global:
-    - PACKAGE_VERSION=$(node -p -e "require('package.json').version")
+    - PACKAGE_VERSION="$(node -p -e 'require("./package.json").version')"
 notifications:
   email: false
 sudo: false
