@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { status, toggle, updateConfig, prev, next, init } from './service';
+import { status, toggle, updateConfig, prev, next, init, playTrack } from './service';
 import { CurrentPlayingProvider } from './provider';
 
 // this method is called when your extension is activated
@@ -23,6 +23,9 @@ export function activate(context: vscode.ExtensionContext) {
 		}),
 		next: vscode.commands.registerCommand('feeluown.next', () => {
 			next();
+		}),
+		playTrack: vscode.commands.registerCommand('feeluown.playTrack', (uri: string, name?: string) => {
+			playTrack(uri, name);
 		})
 	};
 

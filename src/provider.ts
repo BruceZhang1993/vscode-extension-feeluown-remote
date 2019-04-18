@@ -26,7 +26,12 @@ export class CurrentPlayingProvider implements vscode.TreeDataProvider<Track> {
                             itemList.push(new Track(
                                 trackString[1].trim(),
                                 trackLink[1].trim(),
-                                vscode.TreeItemCollapsibleState.None
+                                vscode.TreeItemCollapsibleState.None,
+                                {
+                                    title: 'FeelUOwn Remote: Play track',
+                                    command: 'feeluown.playTrack',
+                                    arguments: [trackLink[1].trim(), trackString[1].trim()]
+                                }
                             ));
                         }
                     });
@@ -64,7 +69,21 @@ export class Track extends vscode.TreeItem {
 
 	get description(): string {
 		return this.fuo;
-	}
+    }
+    
+    startPlay(): void {
+        if (this.fuo) {
+            cp.exec('fuo play ' + this.fuo, (err: any, stdout: string, stderr: any) => {
+                if (!err) {
+                    vscode.window.showInformationMessage('Current playing: ' + this.name);
+                } else {
+                    vscode.window.showErrorMessage('fuo is not available.');
+                }
+            });
+        } else {
+            vscode.window.showErrorMessage('Something wrong.');
+        }
+    }
 
 	contextValue = 'track';
 }

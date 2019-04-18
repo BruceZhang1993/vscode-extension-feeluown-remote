@@ -35,17 +35,17 @@ export function init() {
 		// Next track
 		statusBarNext = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 107);
 
-		statusBarToggle.text = ' ⏸️ ';
+		statusBarToggle.text = ' $(primitive-square) ';
 		statusBarToggle.command = 'feeluown.toggle';
 		statusBarToggle.tooltip = '暂停播放';
 		statusBarToggle.show();
 
-		statusBarPrev.text = ' ⏮️ ';
+		statusBarPrev.text = ' $(chevron-left) ';
 		statusBarPrev.command = 'feeluown.prev';
 		statusBarPrev.tooltip = '上一首';
 		statusBarPrev.show();
 
-		statusBarNext.text = ' ⏭️ ';
+		statusBarNext.text = ' $(chevron-right) ';
 		statusBarNext.command = 'feeluown.next';
 		statusBarNext.tooltip = '下一首';
 		statusBarNext.show();
@@ -70,6 +70,22 @@ export function next() {
 			vscode.window.showErrorMessage('fuo is not available.');
 		}
 	});
+}
+
+export function playTrack(uri: string, name?: string) {
+	if (uri) {
+		cp.exec('fuo play ' + uri, (err: any, stdout: string, stderr: any) => {
+			if (!err) {
+				if (name) {
+					vscode.window.showInformationMessage('Current playing: ' + name);
+				}
+			} else {
+				vscode.window.showErrorMessage('fuo is not available.');
+			}
+		});
+	} else {
+		vscode.window.showErrorMessage('Something wrong.');
+	}
 }
 
 export function toggle() {
@@ -132,10 +148,10 @@ export function status() {
 					statusBarPrev.show();
 					statusBarNext.show();
 					if (playState === 'playing') {
-						statusBarToggle.text = ' ⏸️ ';
+						statusBarToggle.text = ' $(primitive-square) ';
 						statusBarToggle.tooltip = '暂停播放';
 					} else {
-						statusBarToggle.text = ' 🎵️ ';
+						statusBarToggle.text = ' $(triangle-right) ';
 						statusBarToggle.tooltip = '开始播放';
 					}
 				} else {
