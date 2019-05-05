@@ -1,6 +1,3 @@
-env:
-  global:
-    - PACKAGE_VERSION="$(node -p -e 'require("./package.json").version')"
 notifications:
   email: false
 sudo: false
@@ -35,7 +32,7 @@ deploy:
     file_glob: true
     file: "feeluown-remote-*.vsix"
     skip_cleanup: true
-    name: "Version ${PACKAGE_VERSION}"
+    name: "Version ${TRAVIS_TAG}"
     on:
       repo: BruceZhang1993/vscode-extension-feeluown-remote
       tags: true
