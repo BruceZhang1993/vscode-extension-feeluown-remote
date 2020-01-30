@@ -102,7 +102,7 @@ function data_received(data: Buffer) {
 	if (song) {
 		statusBarName.text = song + ' (' + formatSeconds(position) + '/' + formatSeconds(duration) + ')';
 		statusBarName.show();
-		
+
 		if (setShowLrc) {
 			if (!statusBarLrc) {
 				statusBarLrc = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 121);
@@ -118,6 +118,7 @@ function data_received(data: Buffer) {
 		if (setShowController) {
 			statusBarPrev.show();
 			statusBarNext.show();
+			statusBarToggle.show();
 			if (playState === 'playing') {
 				statusBarToggle.text = ' $(primitive-square) ';
 				statusBarToggle.tooltip = '暂停播放';
@@ -136,7 +137,7 @@ function data_received(data: Buffer) {
 export function prev() {
 	cp.exec('fuo previous', (err: any, stdout: string, stderr: any) => {
 		if (!err) {
-			
+
 		} else {
 			vscode.window.showErrorMessage('fuo is not available.');
 		}
@@ -146,7 +147,7 @@ export function prev() {
 export function next() {
 	cp.exec('fuo next', (err: any, stdout: string, stderr: any) => {
 		if (!err) {
-			
+
 		} else {
 			vscode.window.showErrorMessage('fuo is not available.');
 		}
