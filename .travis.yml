@@ -33,7 +33,7 @@ deploy:
       repo: BruceZhang1993/vscode-extension-feeluown-remote
       tags: true
   - provider: script
-    script: vsce publish -p $VS_TOKEN
+    script: vsce publish -p "$VS_TOKEN"
     skip_cleanup: true
     on:
       repo: BruceZhang1993/vscode-extension-feeluown-remote
