@@ -43,7 +43,11 @@
 			},
 			{
 				"command": "feeluown.refreshCurrentPlaying",
-				"title": "Refresh"
+				"title": "Refresh current playing"
+			},
+			{
+				"command": "feeluown.refreshPlaylist",
+				"title": "Refresh playlist"
 			}
 		],
 		"configuration": {
@@ -91,6 +95,12 @@
 			"view/title": [
 				{
 					"command": "feeluown.refreshCurrentPlaying",
+					"when": "view == currentPlaying",
+					"group": "navigation"
+				},
+				{
+					"command": "feeluown.refreshPlaylist",
+					"when": "view == playlist",
 					"group": "navigation"
 				}
 			]

@@ -34,6 +34,9 @@ export function activate(context: vscode.ExtensionContext) {
 		}),
 		refreshCurrentPlaying: vscode.commands.registerCommand('feeluown.refreshCurrentPlaying', () => {
 			cPlayingProvider.refresh();
+		}),
+		refreshPlaylist: vscode.commands.registerCommand('feeluown.refreshPlaylist', () => {
+			myPlaylistsProvider.refresh();
 		})
 	};
 
