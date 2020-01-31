@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import cp = require('child_process');
 import { formatSeconds } from './util';
 import * as net from 'net';
-import { print } from 'util';
 
 let socketConnection: net.Socket;
 
