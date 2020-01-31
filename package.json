@@ -7,7 +7,7 @@
 	"repository": "https://github.com/BruceZhang1993/vscode-extension-feeluown-remote",
 	"version": "0.0.9",
 	"engines": {
-		"node": ">=8.0.0"
+		"vscode": "^1.32.0"
 	},
 	"categories": [
 		"Other"
