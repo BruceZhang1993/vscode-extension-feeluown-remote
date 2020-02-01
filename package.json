@@ -48,6 +48,10 @@
 			{
 				"command": "feeluown.refreshPlaylist",
 				"title": "Refresh playlist"
+			},
+			{
+				"command": "feeluown.playall",
+				"title": "Play all"
 			}
 		],
 		"configuration": {
@@ -102,6 +106,13 @@
 					"command": "feeluown.refreshPlaylist",
 					"when": "view == playlist",
 					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "feeluown.playall",
+					"when": "view == playlist && viewItem == playlist_tracks",
+					"group": "inline"
 				}
 			]
 		}

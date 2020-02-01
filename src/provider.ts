@@ -57,10 +57,12 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
     private _onDidChangeTreeData: vscode.EventEmitter<Playlist | undefined> = new vscode.EventEmitter<Playlist | undefined>();
     readonly onDidChangeTreeData: vscode.Event<Playlist | undefined> = this._onDidChangeTreeData.event;
     readonly providers: Playlist[] = [
+        new Playlist('本地收藏', undefined, vscode.TreeItemCollapsibleState.Expanded, null),
         new Playlist('网易云音乐', undefined, vscode.TreeItemCollapsibleState.Expanded, null),
         new Playlist('虾米音乐', undefined, vscode.TreeItemCollapsibleState.Expanded, null),
     ];
     readonly providerLabels: any = {
+        '本地收藏': 'collection',
         '网易云音乐': 'netease',
         '虾米音乐': 'xiami'
     };
@@ -72,10 +74,13 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
         this._onDidChangeTreeData.fire();
     }
 
+    playall(playlist: Playlist | null): void {
+        vscode.window.showInformationMessage('This function has not been implemented.');
+    }
+
     private async getPlaylistTree(element: Playlist): Promise<Playlist[]> {
         return new Promise(async resolve => {
             let scriptPath: string = __dirname + "/scripts/playlist.py";
-            console.log(scriptPath);
             cp.exec(`fuo exec < ${scriptPath}`, (err: any, stdout: string, stderr: any) => {
                 if (!err) {
                     let lines: string[] = stdout.split("\n");
@@ -123,6 +128,11 @@ export class Playlist extends vscode.TreeItem {
         public readonly parent: Playlist | null
     ) {
         super(name, collapsibleState);
+        if (this.parent) {
+            this.contextValue = 'playlist_tracks';
+        } else {
+            this.contextValue = 'playlist_providers';
+        }
     }
 
     get tooltip(): string {

@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { status, toggle, updateConfig, prev, next, init, playTrack, disconnectSocket } from './service';
-import { CurrentPlayingProvider, PlaylistsProvider } from './provider';
+import { CurrentPlayingProvider, PlaylistsProvider, Playlist } from './provider';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -37,6 +37,9 @@ export function activate(context: vscode.ExtensionContext) {
 		}),
 		refreshPlaylist: vscode.commands.registerCommand('feeluown.refreshPlaylist', () => {
 			myPlaylistsProvider.refresh();
+		}),
+		playall: vscode.commands.registerCommand('feeluown.playall', (node: Playlist) => {
+			myPlaylistsProvider.playall(node);
 		})
 	};
 
