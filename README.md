@@ -32,6 +32,10 @@ You need a running FeelUOwn instance or fuo server.
 - `feeluown.toggle`: Toggle
 - `feeluown.prev`: Prev track
 - `feeluown.next`: Next track
+- `feeluown.playTrack`: Play track
+- `feeluown.refreshCurrentPlaying`: Refresh current playing tree view
+- `feeluown.refreshPlaylist`: Refresh my playlists tree view
+- `feeluown.playall`: Play all tracks in playlist (WIP)
 
 ## Extension Settings
 
