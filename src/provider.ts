@@ -57,9 +57,9 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
     private _onDidChangeTreeData: vscode.EventEmitter<Playlist | undefined> = new vscode.EventEmitter<Playlist | undefined>();
     readonly onDidChangeTreeData: vscode.Event<Playlist | undefined> = this._onDidChangeTreeData.event;
     readonly providers: Playlist[] = [
-        new Playlist('本地收藏', undefined, vscode.TreeItemCollapsibleState.Expanded, null),
-        new Playlist('网易云音乐', undefined, vscode.TreeItemCollapsibleState.Expanded, null),
-        new Playlist('虾米音乐', undefined, vscode.TreeItemCollapsibleState.Expanded, null),
+        new Playlist('本地收藏', undefined, vscode.TreeItemCollapsibleState.Expanded, null, null),
+        new Playlist('网易云音乐', undefined, vscode.TreeItemCollapsibleState.Expanded, null, null),
+        new Playlist('虾米音乐', undefined, vscode.TreeItemCollapsibleState.Expanded, null, null),
     ];
     readonly providerLabels: any = {
         '本地收藏': 'collection',
@@ -75,7 +75,13 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
     }
 
     playall(playlist: Playlist | null): void {
-        vscode.window.showInformationMessage('This function has not been implemented.');
+        if (playlist?.fuo) {
+            cp.exec(`fuo stop && fuo clear && fuo add ${playlist.fuo} && fuo resume`, (err: any, stdout: string, stderr: any) => {
+                if (err) {
+                    vscode.window.showErrorMessage(stderr + ' ' + stdout);
+                }
+            });
+        }
     }
 
     private async getPlaylistTree(element: Playlist): Promise<Playlist[]> {
@@ -92,10 +98,41 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
                             itemList.push(new Playlist(
                                 segments[2],
                                 segments[3],
-                                vscode.TreeItemCollapsibleState.None,
-                                element
+                                vscode.TreeItemCollapsibleState.Collapsed,
+                                element,
+                                'playlist_list'
                             ));
                         }
+                    });
+                    resolve(itemList);
+                } else {
+                    vscode.window.showErrorMessage('fuo is not available.');
+                    resolve([]);
+                }
+            });
+        });
+    }
+
+    private async getPlaylistTracks(element: Playlist): Promise<Playlist[]> {
+        return new Promise(async resolve => {
+            cp.exec(`fuo show ${element.fuo}/songs`, (err: any, stdout: string, stderr: any) => {
+                if (!err) {
+                    let lines: string[] = stdout.split("\n");
+                    let itemList: Playlist[] = [];
+                    lines.forEach((line: string) => {
+                        let segments: string[] = line.split(/\s+/, 3);
+                        itemList.push(new Playlist(
+                            segments[2],
+                            segments[0],
+                            vscode.TreeItemCollapsibleState.None,
+                            element,
+                            'playlist_tracks',
+                            {
+                                title: 'FeelUOwn Remote: Play track',
+                                command: 'feeluown.playTrack',
+                                arguments: [segments[0], segments[2]]
+                            }
+                        ));
                     });
                     resolve(itemList);
                 } else {
@@ -110,8 +147,12 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
         if (!element) {
             // 根节点返回 provider 列表
             return this.providers;
-        } else {
+        } else if (element.contextValue === 'playlist_providers') {
+            // 返回 playlists
             return Promise.resolve(this.getPlaylistTree(element));
+        } else if (element.contextValue === 'playlist_list') {
+            // 返回 tracks
+            return Promise.resolve(this.getPlaylistTracks(element));
         }
     }
 
@@ -125,13 +166,18 @@ export class Playlist extends vscode.TreeItem {
         public readonly name: string,
         public readonly fuo: string | undefined,
         public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-        public readonly parent: Playlist | null
+        public readonly parent: Playlist | null,
+        public readonly context: string | null,
+        public readonly command?: vscode.Command
     ) {
         super(name, collapsibleState);
         if (this.parent) {
-            this.contextValue = 'playlist_tracks';
+            this.contextValue = 'playlist';
         } else {
             this.contextValue = 'playlist_providers';
+        }
+        if (context) {
+            this.contextValue = context;
         }
     }
 
