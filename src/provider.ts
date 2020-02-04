@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import cp = require('child_process');
+import { readFile } from 'fs';
 
 export class CurrentPlayingProvider implements vscode.TreeDataProvider<Track> {
 
@@ -115,31 +116,98 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
 
     private async getPlaylistTracks(element: Playlist): Promise<Playlist[]> {
         return new Promise(async resolve => {
-            cp.exec(`fuo show ${element.fuo}/songs`, (err: any, stdout: string, stderr: any) => {
-                if (!err) {
-                    let lines: string[] = stdout.split("\n");
-                    let itemList: Playlist[] = [];
-                    lines.forEach((line: string) => {
-                        let segments: string[] = line.split(/\s+/, 3);
-                        itemList.push(new Playlist(
-                            segments[2],
-                            segments[0],
-                            vscode.TreeItemCollapsibleState.None,
-                            element,
-                            'playlist_tracks',
-                            {
-                                title: 'FeelUOwn Remote: Play track',
-                                command: 'feeluown.playTrack',
-                                arguments: [segments[0], segments[2]]
+            if (element.name === '我的收藏' && !element.fuo) {
+                // 虾米我的收藏歌曲
+                let scriptPath: string = __dirname + "/scripts/fav_songs.py";
+                cp.exec(`fuo exec < ${scriptPath}`, (err: any, stdout: string, stderr: any) => {
+                    if (!err) {
+                        let lines: string[] = stdout.split("\n");
+                        let itemList: Playlist[] = [];
+                        lines.forEach((line: string) => {
+                            let segments: string[] = line.split('$$$');
+                            if (segments.length > 0) {
+                                itemList.push(new Playlist(
+                                    segments[0],
+                                    segments[1],
+                                    vscode.TreeItemCollapsibleState.None,
+                                    element,
+                                    'playlist_tracks',
+                                    {
+                                        title: 'FeelUOwn Remote: Play track',
+                                        command: 'feeluown.playTrack',
+                                        arguments: [segments[1], segments[0]]
+                                    }
+                                ));
                             }
-                        ));
-                    });
-                    resolve(itemList);
-                } else {
-                    vscode.window.showErrorMessage('fuo is not available.');
+                        });
+                        resolve(itemList);
+                    } else {
+                        vscode.window.showErrorMessage('fuo is not available.');
+                        resolve([]);
+                    }
+                });
+            } else if (!element.fuo?.startsWith('fuo:')) {
+                // 本地收藏
+                if (!element.fuo) {
                     resolve([]);
                 }
-            });
+                readFile(element.fuo ?? '', (err: NodeJS.ErrnoException | null, data: Buffer) => {
+                    if (err) {
+                        resolve([]);
+                    } else {
+                        let lines: string[] = data.toString().split('\n');
+                        let items: Playlist[] = [];
+                        lines.forEach((line: string) => {
+                            let segments = line.split('#');
+                            if (segments.length === 2) {
+                                let trackTitle: string = segments[1].replace(/-\s+(\d{2}:)?\d{2}:\d{2}/, '').trim();
+                                items.push(new Playlist(
+                                    trackTitle,
+                                    segments[0].trim(),
+                                    vscode.TreeItemCollapsibleState.None,
+                                    element,
+                                    'playlist_tracks',
+                                    {
+                                        title: 'FeelUOwn Remote: Play track',
+                                        command: 'feeluown.playTrack',
+                                        arguments: [segments[0].trim(), trackTitle]
+                                    }
+                                ));
+                            }
+                        });
+                        resolve(items);
+                    }
+                });
+            } else {
+                // 在线歌单
+                cp.exec(`fuo show ${element.fuo}/songs`, (err: any, stdout: string, stderr: any) => {
+                    if (!err) {
+                        let lines: string[] = stdout.split("\n");
+                        let itemList: Playlist[] = [];
+                        lines.forEach((line: string) => {
+                            let [fuo, name] = line.split('#');
+                            if (fuo) {
+                                itemList.push(new Playlist(
+                                    name.trim(),
+                                    fuo.trim(),
+                                    vscode.TreeItemCollapsibleState.None,
+                                    element,
+                                    'playlist_tracks',
+                                    {
+                                        title: 'FeelUOwn Remote: Play track',
+                                        command: 'feeluown.playTrack',
+                                        arguments: [fuo.trim(), name.trim()]
+                                    }
+                                ));
+                            }
+                        });
+                        resolve(itemList);
+                    } else {
+                        vscode.window.showErrorMessage('fuo is not available.');
+                        resolve([]);
+                    }
+                });
+            }
         });
     }
 

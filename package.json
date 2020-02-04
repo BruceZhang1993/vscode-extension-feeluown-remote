@@ -16,7 +16,8 @@
 		"onCommand:feeluown.start",
 		"onCommand:feeluown.toggle",
 		"onView:currentPlaying",
-		"onView:playlist"
+		"onView:playlist",
+		"*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -57,6 +58,11 @@
 		"configuration": {
 			"title": "FeelUOwn Remote Configuration",
 			"properties": {
+				"feeluown.autostart": {
+					"type": "boolean",
+					"default": false,
+					"description": "Autostart at extension loaded."
+				},
 				"feeluown.setShowController": {
 					"type": "boolean",
 					"default": true,

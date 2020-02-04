@@ -15,6 +15,14 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.registerTreeDataProvider('currentPlaying', cPlayingProvider);
 	vscode.window.registerTreeDataProvider('playlist', myPlaylistsProvider);
 
+	// Autostart
+	let autostart: boolean | undefined = vscode.workspace.getConfiguration('feeluown').get('autostart');
+	console.log(autostart);
+	if (autostart) {
+		init();
+		status();
+	}
+
 	let commandRegister = {
 		status: vscode.commands.registerCommand('feeluown.start', () => {
 			init();
