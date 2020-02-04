@@ -1,6 +1,5 @@
 from fuo_netease import provider as netease_provider
 from fuo_xiami import provider as xiami_provider
-from fuocore.models import GeneratorProxy
 
 
 def get_all_playlists():
@@ -10,7 +9,6 @@ def get_all_playlists():
         '4': 'artist',
         '8': 'mixed'
     }
-    playlists = {}
     user_netease = netease_provider._user
     user_xiami = xiami_provider._user
     for col in app.coll_mgr.scan():

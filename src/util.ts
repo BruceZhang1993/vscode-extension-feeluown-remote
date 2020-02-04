@@ -15,12 +15,12 @@ export function formatSeconds(value: number) {
 			minuteTime = minuteTime % 60;
 		}
 	}
-	var result = "" + (secondTime >= 10 ? secondTime : '0' + secondTime);
+	var result = '' + (secondTime >= 10 ? secondTime : '0' + secondTime);
 
-	result = "" + (minuteTime >= 10 ? minuteTime : '0' + minuteTime) + ":" + result;
-	
+	result = '' + (minuteTime >= 10 ? minuteTime : '0' + minuteTime) + ':' + result;
+
 	if(hourTime > 0) {
-		result = "" + (hourTime >= 10 ? hourTime : '0' + hourTime) + ":" + result;
+		result = '' + (hourTime >= 10 ? hourTime : '0' + hourTime) + ':' + result;
 	}
 	return result;
 }
