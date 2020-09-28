@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
-import cp = require('child_process');
 import { readFile } from 'fs';
+import { runCommand } from './util';
+import { ExecException } from 'child_process';
 
 export class CurrentPlayingProvider implements vscode.TreeDataProvider<Track> {
 
@@ -16,7 +17,7 @@ export class CurrentPlayingProvider implements vscode.TreeDataProvider<Track> {
 
     private async getList(): Promise<Track[]> {
         return new Promise(async resolve => {
-            cp.exec('fuo list', (err: any, stdout: string, stderr: any) => {
+            runCommand('fuo list', (err: ExecException | null, stdout: string, stderr: string) => {
                 if (!err) {
                     let trackList: string[] = stdout.split("\n");
                     let itemList: Track[] = [];
@@ -76,19 +77,21 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
     }
 
     playall(playlist: Playlist | null): void {
-        if (playlist?.fuo) {
-            cp.exec(`fuo stop && fuo clear && fuo add ${playlist.fuo} && fuo resume`, (err: any, stdout: string, stderr: any) => {
+        if (playlist?.fuo && playlist?.fuo.startsWith('fuo:')) {
+            runCommand(`fuo stop && fuo clear && fuo add ${playlist.fuo} && fuo resume && fuo next`, (err: ExecException | null, stdout: string, stderr: string) => {
                 if (err) {
                     vscode.window.showErrorMessage(stderr + ' ' + stdout);
                 }
             });
+        } else {
+            vscode.window.showInformationMessage('Not available.');
         }
     }
 
     private async getPlaylistTree(element: Playlist): Promise<Playlist[]> {
         return new Promise(async resolve => {
             let scriptPath: string = __dirname + "/scripts/playlist.py";
-            cp.exec(`fuo exec < ${scriptPath}`, (err: any, stdout: string, stderr: any) => {
+            runCommand(`fuo exec < ${scriptPath}`, (err: ExecException | null, stdout: string, stderr: string) => {
                 if (!err) {
                     let lines: string[] = stdout.split("\n");
                     let itemList: Playlist[] = [];
@@ -119,7 +122,7 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
             if (element.name === '我的收藏' && !element.fuo) {
                 // 虾米我的收藏歌曲
                 let scriptPath: string = __dirname + "/scripts/fav_songs.py";
-                cp.exec(`fuo exec < ${scriptPath}`, (err: any, stdout: string, stderr: any) => {
+                runCommand(`fuo exec < ${scriptPath}`, (err: ExecException | null, stdout: string, stderr: string) => {
                     if (!err) {
                         let lines: string[] = stdout.split("\n");
                         let itemList: Playlist[] = [];
@@ -180,7 +183,7 @@ export class PlaylistsProvider implements vscode.TreeDataProvider<Playlist> {
                 });
             } else {
                 // 在线歌单
-                cp.exec(`fuo show ${element.fuo}/songs`, (err: any, stdout: string, stderr: any) => {
+                runCommand(`fuo show ${element.fuo}/songs`, (err: ExecException | null, stdout: string, stderr: string) => {
                     if (!err) {
                         let lines: string[] = stdout.split("\n");
                         let itemList: Playlist[] = [];
@@ -247,14 +250,8 @@ export class Playlist extends vscode.TreeItem {
         if (context) {
             this.contextValue = context;
         }
-    }
-
-    get tooltip(): string {
-        return `${this.name}`;
-    }
-
-    get description(): string | undefined {
-        return this.fuo;
+        this.tooltip = this.name;
+        this.description = this.fuo;
     }
 }
 
@@ -265,20 +262,14 @@ export class Track extends vscode.TreeItem {
 		public readonly collapsibleState: vscode.TreeItemCollapsibleState,
 		public readonly command?: vscode.Command
 	) {
-		super(name, collapsibleState);
+        super(name, collapsibleState);
+        this.tooltip = this.name;
+        this.description = this.fuo;
 	}
-
-	get tooltip(): string {
-		return `${this.name}`;
-	}
-
-	get description(): string {
-		return this.fuo;
-    }
 
     startPlay(): void {
         if (this.fuo) {
-            cp.exec('fuo play ' + this.fuo, (err: any, stdout: string, stderr: any) => {
+            runCommand('fuo play ' + this.fuo, (err: ExecException | null, stdout: string, stderr: string) => {
                 if (!err) {
                     vscode.window.showInformationMessage('Current playing: ' + this.name);
                 } else {

@@ -1,3 +1,7 @@
+import cp = require('child_process');
+import os = require('os');
+import Iconv = require('iconv');
+
 export function formatSeconds(value: number) {
 	var secondTime = value;// 秒
 	var minuteTime = 0;// 分
@@ -23,4 +27,16 @@ export function formatSeconds(value: number) {
 		result = '' + (hourTime >= 10 ? hourTime : '0' + hourTime) + ':' + result;
 	}
 	return result;
+}
+
+export function runCommand(command: string, callback?: (err: cp.ExecException | null, stdout: string, stderr: string) => void) {
+	cp.exec(command, {encoding: 'buffer'}, (err: cp.ExecException | null, stdout: string|Buffer, stderr: string|Buffer) {
+		if (!callback) { return; }
+		if (os.platform() === 'win32') {
+			let iconv = new Iconv('GBK', 'UTF-8');
+			stdout = iconv.convert(stdout);
+			stderr = iconv.convert(stderr);
+		}
+		callback(err, stdout.toString(), stderr.toString());
+	});
 }

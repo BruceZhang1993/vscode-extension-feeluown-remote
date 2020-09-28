@@ -18,6 +18,13 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@types/iconv@^2.1.16":
+  version "2.1.16"
+  resolved "https://registry.npm.taobao.org/@types/iconv/download/@types/iconv-2.1.16.tgz#2b266c2e4c5425981e8ee1479bcb673b285ec88d"
+  integrity sha1-KyZsLkxUJZgejuFHm8tnOyheyI0=
+  dependencies:
+    "@types/node" "*"
+
 "@types/mocha@^7.0.1":
   version "7.0.1"
   resolved "https://registry.npm.taobao.org/@types/mocha/download/@types/mocha-7.0.1.tgz#5d7ec2a789a1f77c59b7ad071b9d50bf1abbfc9e"
@@ -560,6 +567,11 @@ https-proxy-agent@^2.2.1:
   dependencies:
     agent-base "^4.3.0"
     debug "^3.1.0"
+
+iconv@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npm.taobao.org/iconv/download/iconv-3.0.0.tgz#9a293ec123b16b4717e450714ddbb07f985b7d9c"
+  integrity sha1-mik+wSOxa0cX5FBxTduwf5hbfZw=
 
 inflight@^1.0.4:
   version "1.0.6"
