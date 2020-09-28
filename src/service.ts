@@ -80,22 +80,22 @@ function data_received(data: Buffer) {
 	let playState: string = '';
 	dataLines.forEach(line => {
 		if (line.indexOf('song:') !== -1) {
-			let songArr = line.split('#');
+			let songArr = line.trim().split('#');
 			song = songArr[1].trimLeft();
 		}
 		if (line.indexOf('position:') !== -1) {
-			let dArr = line.split(/\s+/);
+			let dArr = line.trim().split(/\s+/);
 			position = parseInt(dArr[1].trimLeft());
 		}
 		if (line.indexOf('duration:') !== -1) {
-			let duArr = line.split(/\s+/);
+			let duArr = line.trim().split(/\s+/);
 			duration = parseInt(duArr[1].trimLeft());
 		}
 		if (setShowLrc && line.indexOf('lyric-s:') !== -1) {
-			lyric = line.replace('lyric-s:', '').trim();
+			lyric = line.trim().replace('lyric-s:', '').trim();
 		}
 		if (line.indexOf('state:') !== -1) {
-			playState = line.replace('state:', '').trim();
+			playState = line.trim().replace('state:', '').trim();
 		}
 	});
 	if (song) {
