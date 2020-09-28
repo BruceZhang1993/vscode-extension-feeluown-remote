@@ -133,7 +133,7 @@
 		"test": "yarn run compile && node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
-		"@types/iconv": "^2.1.16",
+		"@types/iconv-lite": "^0.0.1",
 		"@types/mocha": "^7.0.1",
 		"@types/node": "^13.5.3",
 		"copyfiles": "^2.2.0",
@@ -143,6 +143,6 @@
 		"vscode": "^1.1.28"
 	},
 	"dependencies": {
-		"iconv": "^3.0.0"
+		"iconv-lite": "^0.6.2"
 	}
 }

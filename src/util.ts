@@ -1,6 +1,5 @@
 import cp = require('child_process');
 import os = require('os');
-import Iconv = require('iconv');
 
 export function formatSeconds(value: number) {
 	var secondTime = value;// 秒
@@ -33,9 +32,10 @@ export function runCommand(command: string, callback?: (err: cp.ExecException | 
 	cp.exec(command, {encoding: 'buffer'}, (err: cp.ExecException | null, stdout: string|Buffer, stderr: string|Buffer) => {
 		if (!callback) { return; }
 		if (os.platform() === 'win32') {
-			let iconv = new Iconv('GBK', 'UTF-8');
-			stdout = iconv.convert(stdout);
-			stderr = iconv.convert(stderr);
+			let iconv = require('iconv-lite');
+			iconv.decode(stdout, 'gbk');
+			stdout = iconv.decode(stdout, 'gbk');
+			stderr = iconv.decode(stderr, 'gbk');
 		}
 		callback(err, stdout.toString(), stderr.toString());
 	});
