@@ -30,7 +30,7 @@ export function formatSeconds(value: number) {
 }
 
 export function runCommand(command: string, callback?: (err: cp.ExecException | null, stdout: string, stderr: string) => void) {
-	cp.exec(command, {encoding: 'buffer'}, (err: cp.ExecException | null, stdout: string|Buffer, stderr: string|Buffer) {
+	cp.exec(command, {encoding: 'buffer'}, (err: cp.ExecException | null, stdout: string|Buffer, stderr: string|Buffer) => {
 		if (!callback) { return; }
 		if (os.platform() === 'win32') {
 			let iconv = new Iconv('GBK', 'UTF-8');
