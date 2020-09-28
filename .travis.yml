@@ -20,6 +20,7 @@ script:
 - npm run vscode:prepublish
 before_deploy:
 - npm install -g vsce
+- npm install -g ovsx
 - vsce package
 deploy:
   - provider: releases
@@ -34,6 +35,12 @@ deploy:
       tags: true
   - provider: script
     script: vsce publish -p $VS_TOKEN
+    skip_cleanup: true
+    on:
+      repo: BruceZhang1993/vscode-extension-feeluown-remote
+      tags: true
+  - provider: script
+    script: ovsx publish -p $OVSX_TOKEN
     skip_cleanup: true
     on:
       repo: BruceZhang1993/vscode-extension-feeluown-remote

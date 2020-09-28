@@ -5,7 +5,7 @@
 	"displayName": "FeelUOwn Remote",
 	"description": "FeelUOwn Player Remote Control Extension",
 	"repository": "https://github.com/BruceZhang1993/vscode-extension-feeluown-remote",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"engines": {
 		"vscode": "^1.32.0"
 	},
